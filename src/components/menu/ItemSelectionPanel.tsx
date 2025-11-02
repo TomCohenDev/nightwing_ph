@@ -11,23 +11,43 @@ interface ItemSelectionPanelProps {
   item: MenuItem;
   isOpen: boolean;
   onClose: () => void;
+  editingCartItemId?: string; // If provided, we're editing an existing cart item
+  initialConfig?: {
+    comboType: 'wings' | 'tenders';
+    selectedSauces: string[];
+    selectedDrink: string;
+  };
 }
 
-export const ItemSelectionPanel = ({ item, isOpen, onClose }: ItemSelectionPanelProps) => {
+export const ItemSelectionPanel = ({ item, isOpen, onClose, editingCartItemId, initialConfig }: ItemSelectionPanelProps) => {
   const { t, i18n } = useTranslation();
   const addItem = useCartStore((state) => state.addItem);
+  const removeItem = useCartStore((state) => state.removeItem);
+  const updateItem = useCartStore((state) => state.updateItem);
   const isRTL = i18n.language === "he";
   const [mounted, setMounted] = useState(false);
   
   const sauces = menuItems.filter((i) => i.category === "sauces");
+  const drinks = menuItems.filter((i) => i.category === "drinks");
   const wingsItem = menuItems.find((i) => i.category === "wings");
   const tendersItem = menuItems.find((i) => i.category === "tenders");
+  const friesItem = menuItems.find((i) => i.category === "addons");
+  const saladItem = menuItems.find((i) => i.category === "salads");
 
   // State for combo: wings or tenders selection
-  const [comboType, setComboType] = useState<"wings" | "tenders">("wings");
+  const [comboType, setComboType] = useState<"wings" | "tenders">(
+    initialConfig?.comboType || "wings"
+  );
   
   // State for sauce selection (max 2)
-  const [selectedSauces, setSelectedSauces] = useState<string[]>([]);
+  const [selectedSauces, setSelectedSauces] = useState<string[]>(
+    initialConfig?.selectedSauces || []
+  );
+  
+  // State for drink selection (combo only, 1 drink)
+  const [selectedDrink, setSelectedDrink] = useState<string | null>(
+    initialConfig?.selectedDrink || null
+  );
 
   // Ensure component is mounted before using portal
   useEffect(() => {
@@ -58,31 +78,63 @@ export const ItemSelectionPanel = ({ item, isOpen, onClose }: ItemSelectionPanel
     });
   };
 
+  const toggleDrink = (drinkId: string) => {
+    setSelectedDrink((prev) => (prev === drinkId ? null : drinkId));
+  };
+
   const handleAddToCart = () => {
     if (item.category === "combo") {
-      // Combo needs: wings/tenders choice + 2 sauces
-      if (selectedSauces.length !== 2) return;
+      // Combo needs: wings/tenders choice + 2 sauces + 1 drink
+      if (selectedSauces.length !== 2 || !selectedDrink) return;
       
       const baseItem = comboType === "wings" ? wingsItem! : tendersItem!;
       const selectedSauceItems = selectedSauces.map((id) =>
         sauces.find((s) => s.id === id)
       );
+      const selectedDrinkItem = drinks.find((d) => d.id === selectedDrink);
 
       // Create a unique ID for this combo configuration
-      const comboId = `combo-${comboType}-${selectedSauces.sort().join("-")}`;
+      const comboId = `combo-${comboType}-${selectedSauces.sort().join("-")}-${selectedDrink}`;
+      
+      // Build combo name with all included items
+      const sauceNames = selectedSauceItems.map((s) => isRTL ? s?.nameHe : s?.nameEn).filter(Boolean);
       const comboName = isRTL
-        ? `${item.nameHe} - ${baseItem.nameHe}`
-        : `${item.nameEn} - ${baseItem.nameEn}`;
-      const comboDescription = isRTL
-        ? `${baseItem.descriptionHe}, ${selectedSauceItems.map((s) => s?.nameHe).join(", ")}`
-        : `${baseItem.descriptionEn}, ${selectedSauceItems.map((s) => s?.nameEn).join(", ")}`;
+        ? `${item.nameHe} - ${baseItem.nameHe}, ${sauceNames.join(", ")}, ${selectedDrinkItem?.nameHe || ""}, ${friesItem?.nameHe || ""}, ${saladItem?.nameHe || ""}`
+        : `${item.nameEn} - ${baseItem.nameEn}, ${sauceNames.join(", ")}, ${selectedDrinkItem?.nameEn || ""}, ${friesItem?.nameEn || ""}, ${saladItem?.nameEn || ""}`;
 
-      addItem({
-        id: comboId,
-        name: comboName,
-        price: item.price,
-        imageUrl: baseItem.imageUrl,
-      });
+      if (editingCartItemId) {
+        // Update existing cart item
+        if (updateItem) {
+          updateItem(editingCartItemId, {
+            id: comboId,
+            name: comboName,
+            price: item.price,
+            imageUrl: baseItem.imageUrl,
+            isCombo: true,
+            comboConfig: {
+              comboType,
+              selectedSauces,
+              selectedDrink,
+              baseItemId: baseItem.id,
+            },
+          });
+        }
+      } else {
+        // Add new item
+        addItem({
+          id: comboId,
+          name: comboName,
+          price: item.price,
+          imageUrl: baseItem.imageUrl,
+          isCombo: true,
+          comboConfig: {
+            comboType,
+            selectedSauces,
+            selectedDrink,
+            baseItemId: baseItem.id,
+          },
+        });
+      }
     } else {
       // Wings or Tenders needs: 2 sauces
       if (selectedSauces.length !== 2) return;
@@ -96,23 +148,49 @@ export const ItemSelectionPanel = ({ item, isOpen, onClose }: ItemSelectionPanel
         ? `${item.nameHe} - ${selectedSauceItems.map((s) => s?.nameHe).join(", ")}`
         : `${item.nameEn} - ${selectedSauceItems.map((s) => s?.nameEn).join(", ")}`;
 
-      addItem({
-        id: customizedId,
-        name: customizedName,
-        price: item.price,
-        imageUrl: item.imageUrl,
-      });
+      if (editingCartItemId) {
+        // Update existing cart item
+        if (updateItem) {
+          updateItem(editingCartItemId, {
+            id: customizedId,
+            name: customizedName,
+            price: item.price,
+            imageUrl: item.imageUrl,
+            comboConfig: {
+              comboType: item.category === 'wings' ? 'wings' : 'tenders',
+              selectedSauces,
+              selectedDrink: '', // Not applicable for wings/tenders
+              baseItemId: item.id,
+            },
+          });
+        }
+      } else {
+        // Add new item
+        addItem({
+          id: customizedId,
+          name: customizedName,
+          price: item.price,
+          imageUrl: item.imageUrl,
+          comboConfig: {
+            comboType: item.category === 'wings' ? 'wings' : 'tenders',
+            selectedSauces,
+            selectedDrink: '', // Not applicable for wings/tenders
+            baseItemId: item.id,
+          },
+        });
+      }
     }
 
     // Reset and close
     setSelectedSauces([]);
+    setSelectedDrink(null);
     setComboType("wings");
     onClose();
   };
 
   const canAddToCart =
     item.category === "combo"
-      ? selectedSauces.length === 2
+      ? selectedSauces.length === 2 && selectedDrink !== null
       : selectedSauces.length === 2;
 
   if (!mounted) return null;
@@ -165,7 +243,7 @@ export const ItemSelectionPanel = ({ item, isOpen, onClose }: ItemSelectionPanel
                     {wingsItem && (
                       <button
                         onClick={() => setComboType("wings")}
-                        className={`flex-1 p-3 md:p-4 rounded-xl border-2 transition-all font-body font-bold text-lg md:text-xl min-h-[48px] ${
+                        className={`flex-1 p-3 md:p-4 rounded-xl border-2 transition-all font-body font-bold text-lg md:text-xl min-h-[48px] flex items-center justify-center ${
                           comboType === "wings"
                             ? "border-accent-pink bg-accent-pink/20 text-accent-pink"
                             : "border-accent-pink/30 bg-bg-light text-text-primary"
@@ -177,7 +255,7 @@ export const ItemSelectionPanel = ({ item, isOpen, onClose }: ItemSelectionPanel
                     {tendersItem && (
                       <button
                         onClick={() => setComboType("tenders")}
-                        className={`flex-1 p-3 md:p-4 rounded-xl border-2 transition-all font-body font-bold text-lg md:text-xl min-h-[48px] ${
+                        className={`flex-1 p-3 md:p-4 rounded-xl border-2 transition-all font-body font-bold text-lg md:text-xl min-h-[48px] flex items-center justify-center ${
                           comboType === "tenders"
                             ? "border-accent-pink bg-accent-pink/20 text-accent-pink"
                             : "border-accent-pink/30 bg-bg-light text-text-primary"
@@ -208,7 +286,7 @@ export const ItemSelectionPanel = ({ item, isOpen, onClose }: ItemSelectionPanel
                         key={sauce.id}
                         onClick={() => toggleSauce(sauce.id)}
                         disabled={!canSelect}
-                        className={`p-3 md:p-4 rounded-xl border-2 transition-all font-body font-bold text-sm md:text-lg min-h-[56px] md:min-h-[64px] ${
+                        className={`p-3 md:p-4 rounded-xl border-2 transition-all font-body font-bold text-sm md:text-lg min-h-[56px] md:min-h-[64px] flex items-center justify-center gap-2 ${
                           isSelected
                             ? "border-accent-pink bg-accent-pink/20 text-accent-pink"
                             : canSelect
@@ -216,17 +294,46 @@ export const ItemSelectionPanel = ({ item, isOpen, onClose }: ItemSelectionPanel
                             : "border-accent-pink/10 bg-bg-light text-text-primary/40 opacity-50 cursor-not-allowed"
                         }`}
                       >
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="flex-1 text-left">{isRTL ? sauce.nameHe : sauce.nameEn}</span>
-                          {isSelected && (
-                            <Check className="w-4 h-4 md:w-5 md:h-5 text-accent-pink flex-shrink-0" />
-                          )}
-                        </div>
+                        <span>{isRTL ? sauce.nameHe : sauce.nameEn}</span>
+                        {isSelected && (
+                          <Check className="w-4 h-4 md:w-5 md:h-5 text-accent-pink flex-shrink-0" />
+                        )}
                       </button>
                     );
                   })}
                 </div>
               </div>
+
+              {/* Drink Selection (Combo only) */}
+              {item.category === "combo" && (
+                <div className="mb-4 md:mb-6">
+                  <p className="text-base md:text-xl font-body font-bold text-text-primary mb-3 md:mb-4">
+                    {t("selection.chooseDrink")}
+                  </p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+                    {drinks.map((drink) => {
+                      const isSelected = selectedDrink === drink.id;
+
+                      return (
+                        <button
+                          key={drink.id}
+                          onClick={() => toggleDrink(drink.id)}
+                          className={`p-3 md:p-4 rounded-xl border-2 transition-all font-body font-bold text-sm md:text-lg min-h-[56px] md:min-h-[64px] flex items-center justify-center gap-2 ${
+                            isSelected
+                              ? "border-accent-pink bg-accent-pink/20 text-accent-pink"
+                              : "border-accent-pink/30 bg-bg-light text-text-primary hover:border-accent-pink/50 active:bg-accent-pink/10"
+                          }`}
+                        >
+                          <span>{isRTL ? drink.nameHe : drink.nameEn}</span>
+                          {isSelected && (
+                            <Check className="w-4 h-4 md:w-5 md:h-5 text-accent-pink flex-shrink-0" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* Footer with Add Button */}
               <div className="flex items-center justify-between pt-4 border-t border-accent-pink/20 sticky bottom-0 bg-bg-dark pb-2">

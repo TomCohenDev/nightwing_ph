@@ -189,16 +189,32 @@
 
   /* Outlined Text Effect - Clean, No Shadows */
   .outlined-text {
-    color: transparent;
-    -webkit-text-stroke: 3px #f66dce;
-    text-stroke: 3px #f66dce;
+    color: #23262d;
+    -webkit-text-stroke: 5px #f66dce;
+    text-stroke: 5px #f66dce;
+    paint-order: stroke fill;
   }
 
   /* Mobile adjustments */
   @media (max-width: 768px) {
     .outlined-text {
-      -webkit-text-stroke: 2px #f66dce;
-      text-stroke: 2px #f66dce;
+      -webkit-text-stroke: 4px #f66dce;
+      text-stroke: 4px #f66dce;
+    }
+  }
+
+  /* Larger screens - even thicker */
+  @media (min-width: 768px) {
+    .outlined-text {
+      -webkit-text-stroke: 6px #f66dce;
+      text-stroke: 6px #f66dce;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .outlined-text {
+      -webkit-text-stroke: 8px #f66dce;
+      text-stroke: 8px #f66dce;
     }
   }
 }

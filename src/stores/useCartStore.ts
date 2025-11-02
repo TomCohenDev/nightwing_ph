@@ -7,6 +7,15 @@ export interface CartItem {
   price: number;
   quantity: number;
   imageUrl?: string;
+  // For combo items - track configuration for editing
+  comboConfig?: {
+    comboType: 'wings' | 'tenders';
+    selectedSauces: string[];
+    selectedDrink: string;
+    baseItemId: string;
+  };
+  // Track if this is a combo item
+  isCombo?: boolean;
 }
 
 interface CartStore {
@@ -14,6 +23,7 @@ interface CartStore {
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
+  updateItem: (oldId: string, newItem: Omit<CartItem, 'quantity'>) => void;
   clearCart: () => void;
   getTotal: () => number;
   getItemCount: () => number;
@@ -50,6 +60,17 @@ export const useCartStore = create<CartStore>()(
             )
           }));
         }
+      },
+      updateItem: (oldId, newItem) => {
+        set((state) => ({
+          items: state.items.map(i => {
+            if (i.id === oldId) {
+              // Preserve quantity when updating
+              return { ...newItem, quantity: i.quantity };
+            }
+            return i;
+          })
+        }));
       },
       clearCart: () => set({ items: [] }),
       getTotal: () => {

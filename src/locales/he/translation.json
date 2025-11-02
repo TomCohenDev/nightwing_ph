@@ -22,6 +22,7 @@
     "title": "אני במאנץ' ל",
     "wings": "כנפיים",
     "tenders": "טנדרס",
+    "fries": "צ'יפס",
     "sauces": "רטבים",
     "salads": "סלטים",
     "drinks": "משקאות",
@@ -36,11 +37,17 @@
     "subtotal": "סיכום ביניים",
     "delivery": "משלוח",
     "deliveryFee": "עמלת משלוח",
-    "addToCart": "הוסף לעגלה"
+    "addToCart": "הוסף לעגלה",
+    "clear": "נקה הכל",
+    "keepOrdering": "המשך להזמין",
+    "remove": "הסר",
+    "edit": "ערוך",
+    "each": "לחתיכה"
   },
   "selection": {
     "chooseType": "בחר סוג:",
     "chooseSauces": "בחר 2 רטבים:",
+    "chooseDrink": "בחר משקה:",
     "addToCart": "הוסף לעגלה"
   },
   "footer": {

@@ -6,14 +6,15 @@ export const MenuSection = () => {
   const { t } = useTranslation();
 
   // Group items by category - combo first
+  // Fries (addons) has its own section after tenders
   const categories = [
     { key: 'combo' as const, items: menuItems.filter(item => item.category === 'combo') },
     { key: 'wings' as const, items: menuItems.filter(item => item.category === 'wings') },
     { key: 'tenders' as const, items: menuItems.filter(item => item.category === 'tenders') },
+    { key: 'fries' as const, items: menuItems.filter(item => item.category === 'addons') },
     { key: 'sauces' as const, items: menuItems.filter(item => item.category === 'sauces') },
     { key: 'salads' as const, items: menuItems.filter(item => item.category === 'salads') },
     { key: 'drinks' as const, items: menuItems.filter(item => item.category === 'drinks') },
-    { key: 'addons' as const, items: menuItems.filter(item => item.category === 'addons') },
   ];
 
   return (

@@ -22,6 +22,7 @@
     "title": "I'm in the munch for",
     "wings": "Wings",
     "tenders": "Tenders",
+    "fries": "Fries",
     "sauces": "Sauces",
     "salads": "Salads",
     "drinks": "Drinks",
@@ -36,11 +37,17 @@
     "subtotal": "Subtotal",
     "delivery": "Delivery",
     "deliveryFee": "Delivery Fee",
-    "addToCart": "Add to Cart"
+    "addToCart": "Add to Cart",
+    "clear": "Clear",
+    "keepOrdering": "Keep Ordering",
+    "remove": "Remove",
+    "edit": "Edit",
+    "each": "each"
   },
   "selection": {
     "chooseType": "Choose type:",
     "chooseSauces": "Choose 2 sauces:",
+    "chooseDrink": "Choose drink:",
     "addToCart": "Add to Cart"
   },
   "footer": {

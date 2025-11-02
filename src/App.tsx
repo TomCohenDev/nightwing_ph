@@ -1,11 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HeroSection } from './components/hero/HeroSection';
 import { MenuSection } from './components/menu/MenuSection';
 import { Footer } from './components/layout/Footer';
+import { CartButton } from './components/cart/CartButton';
+import { CartPanel } from './components/cart/CartPanel';
 
 function App() {
   const { i18n } = useTranslation();
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
     // Set initial direction based on language
@@ -23,6 +26,9 @@ function App() {
 
   return (
     <div className="min-h-screen">
+      {/* Cart Button - Top Left */}
+      <CartButton onClick={() => setIsCartOpen(true)} />
+
       {/* Language Switcher Button - Top Right */}
       <button
         onClick={toggleLanguage}
@@ -30,6 +36,9 @@ function App() {
       >
         {i18n.language === 'he' ? 'English' : 'עברית'}
       </button>
+
+      {/* Cart Panel */}
+      <CartPanel isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
       <HeroSection />
       <MenuSection />
