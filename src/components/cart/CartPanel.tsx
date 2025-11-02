@@ -245,15 +245,16 @@ interface ComboEditPanelProps {
 
 const ComboEditPanel = ({ cartItem, onClose, onUpdate }: ComboEditPanelProps) => {
   // Find the base item - could be combo, wings, or tenders
-  let baseItem = menuItems.find((i) => i.category === 'combo');
-  
   if (!cartItem.comboConfig) return null;
 
+  let baseItem = menuItems.find((i) => i.category === 'combo');
+  
   if (cartItem.isCombo) {
     baseItem = menuItems.find((i) => i.category === 'combo');
   } else {
     // For wings/tenders, find the base item
-    baseItem = menuItems.find((i) => i.id === cartItem.comboConfig.baseItemId);
+    // We know comboConfig is not null here due to the check above
+    baseItem = menuItems.find((i) => i.id === cartItem.comboConfig!.baseItemId);
   }
   
   if (!baseItem) return null;
