@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "wings": "Wings",
+    "tenders": "Tenders",
+    "sauces": "Sauces",
+    "salads": "Salads",
+    "drinks": "Drinks",
+    "addons": "Add-ons",
+    "combo": "Combo"
+  },
+  "hero": {
+    "title": "NIGHT WING",
+    "subtitle": "Hot & Tasty Wings",
+    "description": "The hottest and most delicious wings in town",
+    "order": "ORDER",
+    "hours": "Hours",
+    "hoursValue": "21:00-2:00",
+    "location": "Pardes Hanna, Paar 29"
+  },
+  "menu": {
+    "title": "Menu",
+    "wings": "Wings",
+    "tenders": "Tenders",
+    "sauces": "Sauces",
+    "salads": "Salads",
+    "drinks": "Drinks",
+    "addons": "Add-ons",
+    "combo": "Combo"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Cart is empty",
+    "checkout": "Checkout",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "delivery": "Delivery",
+    "deliveryFee": "Delivery Fee",
+    "addToCart": "Add to Cart"
+  },
+  "footer": {
+    "phone": "Phone",
+    "hours": "Hours",
+    "location": "Location",
+    "pickup": "Pickup available at Paar 29 Pardes Hanna",
+    "delivery": "Delivery - Cost ₪20"
+  }
+}
+

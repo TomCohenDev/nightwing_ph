@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg-primary: #23262d;
+    --color-bg-dark: #1a1d23;
+    --color-text-primary: #b7fef6;
+    --color-accent-pink: #f66dce;
+    --color-accent-orange: #fa7e61;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 70px;
+  }
+
+  body {
+    @apply bg-bg-primary text-text-primary font-body;
+    direction: rtl;
+    font-feature-settings: "kern" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* RTL/LTR Support */
+  [dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+
+  [dir="ltr"] {
+    direction: ltr;
+    text-align: left;
+  }
+
+  /* Smooth scrolling */
+  * {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-accent-pink ring-offset-2 ring-offset-bg-primary;
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-accent-pink text-white font-bold px-8 py-4 rounded-xl 
+           transition-all duration-300 transform hover:scale-105 
+           active:scale-95 shadow-lg hover:shadow-accent-pink/50
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+  }
+
+  .section-title {
+    @apply text-accent-pink font-heading font-bold text-4xl md:text-5xl 
+           mb-4 pb-2 border-b-2 border-accent-pink inline-block;
+  }
+}
+

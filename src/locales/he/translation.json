@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "wings": "כנפיים",
+    "tenders": "טנדרס",
+    "sauces": "רטבים",
+    "salads": "סלטים",
+    "drinks": "משקאות",
+    "addons": "תוספות",
+    "combo": "קומבו"
+  },
+  "hero": {
+    "title": "NIGHT WING",
+    "subtitle": "כנפיים חמות וטעימות",
+    "description": "הכנפיים הכי חמות והכי טעימות בעיר",
+    "order": "הזמן",
+    "hours": "שעות פעילות",
+    "hoursValue": "21:00-2:00",
+    "location": "פרדס חנה, פאר 29"
+  },
+  "menu": {
+    "title": "תפריט",
+    "wings": "כנפיים",
+    "tenders": "טנדרס",
+    "sauces": "רטבים",
+    "salads": "סלטים",
+    "drinks": "משקאות",
+    "addons": "תוספות",
+    "combo": "קומבו"
+  },
+  "cart": {
+    "title": "עגלת קניות",
+    "empty": "העגלה ריקה",
+    "checkout": "השלם הזמנה",
+    "total": "סה\"כ",
+    "subtotal": "סיכום ביניים",
+    "delivery": "משלוח",
+    "deliveryFee": "עמלת משלוח",
+    "addToCart": "הוסף לעגלה"
+  },
+  "footer": {
+    "phone": "טלפון",
+    "hours": "שעות פעילות",
+    "location": "מיקום",
+    "pickup": "איסוף עצמי זמין בפרדס חנה, פאר 29",
+    "delivery": "משלוח - עלות ₪20"
+  }
+}
+
