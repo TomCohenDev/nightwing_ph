@@ -247,16 +247,16 @@ const ComboEditPanel = ({ cartItem, onClose, onUpdate }: ComboEditPanelProps) =>
   // Find the base item - could be combo, wings, or tenders
   let baseItem = menuItems.find((i) => i.category === 'combo');
   
-  if (cartItem.comboConfig) {
-    if (cartItem.isCombo) {
-      baseItem = menuItems.find((i) => i.category === 'combo');
-    } else {
-      // For wings/tenders, find the base item
-      baseItem = menuItems.find((i) => i.id === cartItem.comboConfig.baseItemId);
-    }
+  if (!cartItem.comboConfig) return null;
+
+  if (cartItem.isCombo) {
+    baseItem = menuItems.find((i) => i.category === 'combo');
+  } else {
+    // For wings/tenders, find the base item
+    baseItem = menuItems.find((i) => i.id === cartItem.comboConfig.baseItemId);
   }
   
-  if (!baseItem || !cartItem.comboConfig) return null;
+  if (!baseItem) return null;
 
   return (
     <ItemSelectionPanel

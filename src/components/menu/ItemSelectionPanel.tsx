@@ -22,7 +22,6 @@ interface ItemSelectionPanelProps {
 export const ItemSelectionPanel = ({ item, isOpen, onClose, editingCartItemId, initialConfig }: ItemSelectionPanelProps) => {
   const { t, i18n } = useTranslation();
   const addItem = useCartStore((state) => state.addItem);
-  const removeItem = useCartStore((state) => state.removeItem);
   const updateItem = useCartStore((state) => state.updateItem);
   const isRTL = i18n.language === "he";
   const [mounted, setMounted] = useState(false);
