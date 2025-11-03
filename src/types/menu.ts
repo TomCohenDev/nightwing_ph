@@ -135,6 +135,16 @@ export const menuItems: MenuItem[] = [
     isAvailable: true,
   },
   {
+    id: "addon-corndog",
+    nameHe: "קורנדוג",
+    nameEn: "Corndog",
+    descriptionHe: "קורנדוג טעים",
+    descriptionEn: "Delicious corndog",
+    price: 15,
+    category: "addons",
+    isAvailable: true,
+  },
+  {
     id: "combo-1",
     nameHe: "קומבו",
     nameEn: "Combo Meal",

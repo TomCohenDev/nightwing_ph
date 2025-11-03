@@ -31,6 +31,7 @@ export const ItemSelectionPanel = ({
   const updateItem = useCartStore((state) => state.updateItem);
   const isRTL = i18n.language === "he";
   const [mounted, setMounted] = useState(false);
+  const [showAddedFeedback, setShowAddedFeedback] = useState(false);
 
   const sauces = menuItems.filter((i) => i.category === "sauces");
   const drinks = menuItems.filter((i) => i.category === "drinks");
@@ -148,6 +149,13 @@ export const ItemSelectionPanel = ({
           },
         });
       }
+      
+      // Show feedback for 1.5 seconds then close
+      setShowAddedFeedback(true);
+      setTimeout(() => {
+        setShowAddedFeedback(false);
+        onClose();
+      }, 1500);
     } else {
       // Wings or Tenders needs: 2 sauces
       if (selectedSauces.length !== 2) return;
@@ -196,13 +204,18 @@ export const ItemSelectionPanel = ({
           },
         });
       }
+      
+      // Show feedback for 1.5 seconds then close
+      setShowAddedFeedback(true);
+      setTimeout(() => {
+        setShowAddedFeedback(false);
+        onClose();
+        // Reset after closing
+        setSelectedSauces([]);
+        setSelectedDrink(null);
+        setComboType("wings");
+      }, 1500);
     }
-
-    // Reset and close
-    setSelectedSauces([]);
-    setSelectedDrink(null);
-    setComboType("wings");
-    onClose();
   };
 
   const canAddToCart =
@@ -353,21 +366,48 @@ export const ItemSelectionPanel = ({
               )}
 
               {/* Footer with Add Button */}
-              <div className="flex items-center justify-between pt-4 border-t border-accent-pink/20 sticky bottom-0 bg-bg-dark pb-2">
-                <span className="text-xl md:text-3xl font-body font-bold text-accent-pink">
-                  ₪{item.price}
-                </span>
-                <button
-                  onClick={handleAddToCart}
-                  disabled={!canAddToCart}
-                  className={`px-4 md:px-8 py-2.5 md:py-4 rounded-xl font-body font-bold text-base md:text-2xl transition-all min-h-[48px] md:min-h-[56px] ${
-                    canAddToCart
-                      ? "bg-accent-pink text-white hover:bg-accent-pink/90 active:bg-accent-pink/80"
-                      : "bg-accent-pink/30 text-text-primary/50 cursor-not-allowed"
-                  }`}
-                >
-                  {t("selection.addToCart")}
-                </button>
+              <div className="flex flex-col gap-2 pt-4 border-t border-accent-pink/20 sticky bottom-0 bg-bg-dark pb-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xl md:text-3xl font-body font-bold text-accent-pink">
+                    ₪{item.price}
+                  </span>
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={!canAddToCart || showAddedFeedback}
+                    className={`px-4 md:px-8 py-2.5 md:py-4 rounded-xl font-body font-bold text-base md:text-2xl transition-all min-h-[48px] md:min-h-[56px] flex items-center gap-2 ${
+                      showAddedFeedback
+                        ? "bg-green-500 text-white"
+                        : canAddToCart
+                        ? "bg-accent-pink text-white hover:bg-accent-pink/90 active:bg-accent-pink/80"
+                        : "bg-accent-pink/30 text-text-primary/50 cursor-not-allowed"
+                    }`}
+                  >
+                    {showAddedFeedback ? (
+                      <>
+                        <Check className="w-5 h-5 md:w-6 md:h-6" />
+                        {t("cart.addedToCart")}
+                      </>
+                    ) : (
+                      t("selection.addToCart")
+                    )}
+                  </button>
+                </div>
+                
+                {/* Success Message */}
+                <AnimatePresence>
+                  {showAddedFeedback && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="text-center"
+                    >
+                      <span className="text-green-400 font-body font-bold text-lg md:text-xl">
+                        ✓ {t('cart.addedToCart')}
+                      </span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </motion.div>

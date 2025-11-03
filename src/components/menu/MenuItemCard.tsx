@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { Plus } from "lucide-react";
+import { Plus, Check } from "lucide-react";
 import { MenuItem } from "../../types/menu";
 import { useCartStore } from "../../stores/useCartStore";
 import { ItemSelectionPanel } from "./ItemSelectionPanel";
@@ -11,10 +11,11 @@ interface MenuItemCardProps {
 }
 
 export const MenuItemCard = ({ item }: MenuItemCardProps) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const addItem = useCartStore((state) => state.addItem);
   const isRTL = i18n.language === "he";
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [showAddedFeedback, setShowAddedFeedback] = useState(false);
 
   // Check if item needs customization (wings, tenders, combo)
   const needsCustomization =
@@ -34,6 +35,10 @@ export const MenuItemCard = ({ item }: MenuItemCardProps) => {
         price: item.price,
         imageUrl: item.imageUrl,
       });
+      
+      // Show feedback
+      setShowAddedFeedback(true);
+      setTimeout(() => setShowAddedFeedback(false), 2000);
     }
   };
 
@@ -74,12 +79,54 @@ export const MenuItemCard = ({ item }: MenuItemCardProps) => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={handleAddToCart}
-            className="bg-accent-pink text-white p-2 md:p-3 rounded-lg hover:bg-accent-pink/90 transition-colors"
+            className={`p-2 md:p-3 rounded-lg transition-all duration-300 ${
+              showAddedFeedback
+                ? "bg-green-500 text-white"
+                : "bg-accent-pink text-white hover:bg-accent-pink/90"
+            }`}
             aria-label="Add to cart"
           >
-            <Plus className="w-5 h-5 md:w-6 md:h-6" />
+            <AnimatePresence mode="wait">
+              {showAddedFeedback ? (
+                <motion.div
+                  key="check"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  exit={{ scale: 0, rotate: 180 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Check className="w-5 h-5 md:w-6 md:h-6" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="plus"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  exit={{ scale: 0, rotate: 180 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Plus className="w-5 h-5 md:w-6 md:h-6" />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.button>
         </div>
+        
+        {/* Added Feedback Overlay */}
+        <AnimatePresence>
+          {showAddedFeedback && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mt-3 text-center"
+            >
+              <span className="text-green-400 font-body font-bold text-sm md:text-base">
+                ✓ {t('cart.addedToCart')}
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Selection Panel */}
