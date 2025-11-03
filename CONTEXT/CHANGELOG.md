@@ -1,3 +1,74 @@
+ # Night Wing PH – Changelog (Context)
+
+ This changelog captures the major user-facing decisions and implementation steps made during development.
+
+ ## 2025-01-15
+
+- Checkout system
+  - Added simple order submission to n8n webhook (https://n8n.yarden-zamir.com/webhook/order).
+  - Checkout form with customer name, phone, order type (pickup/delivery), payment method (cash/paybox), and optional delivery address.
+  - Native location picker for delivery addresses (browser geolocation).
+  - Automatic order time (ISO 8601).
+  - Success feedback; clear cart; auto-close after 3 seconds.
+  - Translatable UI for Hebrew/English.
+
+## 2025-11-03
+
+ - Fonts and typography
+   - Self-host Josefin Sans (logo/title) and Amatic SC (Hebrew/body). Ensure `font-logo` and `font-heading` use Josefin Sans; `font-body` uses Amatic SC.
+   - Make all Amatic SC text larger and bolder by default; apply across subtitles and UI.
+   - Fix outline for title "WING": use `-webkit-text-stroke` with `paint-order: stroke fill` and responsive stroke widths; fill set to background color.
+
+ - Hero section
+   - Keep only language button; remove header component from page.
+   - Add top-right language button (Hebrew↔English); make it smaller; reduce glow; reintroduce lighter pulse.
+   - Hours/location: show only day and hours ("Thursdays 21:00-2:00"); no "שעות פעילות" label. Adjust typography and subtle glow. Iterate to reduce over-boldness.
+   - Ensure flying wings/background never obscure text: lower z-index, reposition towards edges, lower opacity and glow.
+   - Disable hero subtitle/description for now.
+
+ - Menu section
+   - Rename main menu title to "אני במאנץ' ל...:" and increase visual weight (custom shadow-based thickening). Adjust underline to rounded, symmetric, pink, thicker; fix spacing on mobile and desktop.
+   - Use Amatic SC for all section/category subtitles. Category title text in blue; underline in pink with rounded corners and improved spacing.
+   - Reorder categories: Combo first; Wings; Tenders; Fries; Salads; Sauces; Drinks. (Fries moved above Salads.)
+   - Integrate images in menu cards; remove individual item titles and hot symbol; center and emphasize descriptions; make description size `text-lg md:text-xl`.
+
+ - Combo/wings/tenders selection flow
+   - Add selection panel (bottom sheet via portal) for Combo/Wings/Tenders.
+   - Wings/Tenders: choose 2 sauces; Combo: choose Wings or Tenders + 2 sauces + 1 drink.
+   - Add drink selection to Combo (Cola Zero, Fanta, Sprite Zero). Remove 1.5L option.
+   - Improve mobile ergonomics: sticky header/footer, centered button content, larger touch targets, overscroll containment.
+
+ - Cart
+   - Add floating cart button (top-left) showing count; opens side cart panel.
+   - Cart panel lists items with images, names, quantities, total-only (remove per-item price line).
+   - Actions: Clear, Keep Ordering, Remove item, Edit. Allow removing Combo items (revised policy).
+   - Support editing configurations for Combo (type/sauces/drink) and for Wings/Tenders (sauces).
+   - Use combo image when showing combo item in cart.
+
+ - i18n
+   - Add keys for day label, hero order text, new menu title, fries, selection panel labels, cart labels, drink names.
+   - Correct spelling to "מאנץ'" (with alef) across button/title.
+
+ - Styling utilities
+   - Button: less bright; pink outline; semi-transparent background (`bg-accent-pink/20`), subtle hover, lighter pulse animation (`pulse-glow-light`).
+   - Add `.menu-title-thick` to visually thicken Amatic SC; adjust letter-spacing.
+   - Add `.hours-glow` for subtle glow.
+
+ - Tech & fixes
+   - Resolve Tailwind circular dependency from `@apply font-body` in global CSS by using direct `font-family`/`font-weight`.
+   - Fix TS build: guard `cartItem.comboConfig` in `CartPanel`; remove unused `removeItem` import from `ItemSelectionPanel`.
+   - Render selection panel via `createPortal`; lock body scrolling; raise z-index; smoother spring animation.
+
+ ## 2025-11-02
+
+ - Initial menu/category scaffolding; floating wings and star field.
+ - Basic cart store (Zustand) and menu cards.
+ - Baseline i18n setup and translations.
+
+ ---
+
+ Refer to `CONTEXT/IMPLEMENTATION_STATUS.md` for current feature status and `src/styles/index.css` for the latest font and outline utilities.
+
 # Changelog - Night Wing PH Website
 
 All notable changes and integrations from the initial implementation session are documented in this file.

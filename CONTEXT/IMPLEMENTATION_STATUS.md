@@ -1,161 +1,66 @@
 # Implementation Status - Night Wing PH
 
-## ✅ Completed Features
+## ✅ Completed (current build)
 
-### Project Setup
-- ✅ Vite + React + TypeScript project initialized
-- ✅ Tailwind CSS configured with custom color palette
-- ✅ All dependencies installed and working
-- ✅ Project structure organized
-- ✅ TypeScript configuration complete
+- Fonts & typography
+  - Self-hosted Josefin Sans (logo/title) and Amatic SC (body/Hebrew).
+  - Global body uses Amatic SC, larger and bolder by default; subtitles updated to Amatic SC.
+  - "WING" outline fixed with responsive `-webkit-text-stroke`, background-colored fill, `paint-order: stroke fill`.
 
-### Core UI Components
-- ✅ **Header Component**
-  - Sticky/fixed navigation
-  - Logo (NIGHT WING with color split)
-  - Navigation links (anchor scroll)
-  - Cart icon with badge
-  - Language switcher (Hebrew/English)
-  - RTL/LTR support
+- Hero section
+  - Header removed; standalone language button at top-right (smaller, subtle pulse-glow-light).
+  - Hours/day display shows only day + hours (Hebrew/English); subtle glow; adjusted weight/spacings.
+  - Floating wings and star field placed behind content (z-index), repositioned to edges; lower opacity/glow.
+  - Subtitle/description disabled for now.
 
-- ✅ **Hero Section**
-  - Full viewport height (100vh mobile, 80vh desktop)
-  - Floating chicken wings animation (using wing.png)
-  - Twinkling star field background
-  - Large, prominent title
-  - Subtitle and description
-  - Hours and location display
-  - **BIG ORDER BUTTON** - smooth scrolls to menu section
-  - Scroll indicator animation
+- Menu
+  - Section title changed to "אני במאנץ' ל...:" with thicker visual weight and rounded pink underline; spacing fixed for mobile/desktop.
+  - Category subtitles use Amatic SC; category underline in pink, rounded, thicker; improved spacing.
+  - Category order: Combo, Wings, Tenders, Fries (addons), Salads, Sauces, Drinks (Fries above Salads).
+  - Menu item cards show images; item titles and hot symbol removed; descriptions centered and resized.
 
-- ✅ **Menu Section**
-  - Section anchor (#menu) for smooth scroll targeting
-  - All menu items from the menu description:
-    - Wings (9 pieces, 2 sauces, 45₪)
-    - Tenders (6 pieces, 2 sauces, 45₪)
-    - Sauces: Classic Chili, Thai (spicy), Peanut Butter, Mustard & Honey
-    - Salads: Classic American Coleslaw (5₪)
-    - Drinks: 1.5L (15₪), Can (10₪)
-    - Add-ons: Fries (15₪)
-    - Combo Meal (65₪)
-  - Grouped by category
-  - Responsive grid layout (1/2/3 columns)
-  - Menu item cards with:
-    - Name (Hebrew/English)
-    - Description
-    - Price
-    - Add to cart button
-    - Spice indicator for spicy items
+- Selection panel (combos/wings/tenders)
+  - Bottom-sheet via React Portal with body scroll lock, high z-index, spring animations, sticky header/footer.
+  - Wings/Tenders: select 2 sauces.
+  - Combo: select type (Wings/Tenders) + 2 sauces + 1 drink.
+  - Drink options restricted to Cola Zero, Fanta, Sprite Zero (removed 1.5L); validation ensures selections.
 
-- ✅ **Footer Component**
-  - Contact information
-  - Hours display
-  - Location
-  - Disclaimer (pickup/delivery info)
+- Cart
+  - Floating cart button (top-left) appears after items added; shows count.
+  - Slide-in cart panel with item images, names, quantities; per-item price line removed; total shown.
+  - Actions: Clear, Keep Ordering, Remove, Edit.
+  - Combo items can be removed; all configurable items (Combo/Wings/Tenders) can be edited in-place (sauces/drink/type).
+  - Combo items use combo image.
 
-### Functionality
-- ✅ **RTL/LTR Support**
-  - Full Hebrew (RTL) support
-  - Full English (LTR) support
-  - Language switcher with persistent preference
-  - Automatic direction switching
-  - All text translations
+- Checkout flow
+  - Simple order submission to n8n webhook at https://n8n.yarden-zamir.com/webhook/order
+  - Checkout form with customer name, phone, order type (pickup/delivery), payment method (cash/paybox)
+  - Browser geolocation for delivery addresses (optional)
+  - Automatic order time (ISO 8601), success feedback, cart clearing
+  - Translated UI for Hebrew/English
 
-- ✅ **Smooth Scrolling**
-  - ORDER button scrolls to menu section
-  - CSS native smooth scroll
-  - Header offset (70px) accounted for
-  - Navigation links scroll to sections
+- i18n
+  - Added/updated keys: day label, hero order text, new menu title, fries, selection panel texts, cart labels, drink names.
+  - Fixed Hebrew spelling to "מאנץ'" across UI.
 
-- ✅ **Shopping Cart**
-  - Add items to cart
-  - Persistent cart (localStorage)
-  - Cart badge in header (item count)
-  - Zustand store for state management
+- CSS utilities
+  - `.btn-primary`: semi-transparent pink background, pink outline, subtle hover, lighter pulse.
+  - `.menu-title-thick` for Amatic SC thickness; `.hours-glow` for subtle glow.
 
-- ✅ **Animations**
-  - Hero section fade-in
-  - Floating wings (4 wings with different paths)
-  - Twinkling stars (30 stars)
-  - Menu cards slide-in on scroll
-  - Hover effects on cards
-  - Button interactions (hover, tap)
-  - ORDER button pulse/glow animation
+- Build fixes
+  - Tailwind circular dependency from `@apply font-body` resolved (direct font-family/weight in CSS).
+  - TypeScript: guard `cartItem.comboConfig` in `CartPanel`; remove unused `removeItem` import.
 
-### Styling & Design
-- ✅ **Color Palette**
-  - Background: #23262d
-  - Text: #b7fef6 (light teal)
-  - Accent: #f66dce (hot pink)
-  - Orange: #fa7e61 (wings)
-  - Peach: #e3b5a4 (soft accent)
+## 🧩 In scope but deferred
 
-- ✅ **Typography**
-  - Logo: Bebas Neue
-  - Headings: Montserrat
-  - Body: Inter
-  - Hebrew: Assistant
-
-- ✅ **Mobile-First Design**
-  - Responsive breakpoints
-  - Touch-friendly buttons (≥44px)
-  - Optimized for mobile viewport
-  - Responsive text sizes
-
-### Build & Performance
-- ✅ **Production Build**
-  - Builds successfully
-  - Code splitting configured
-  - Optimized bundles
-  - Total size: ~140KB gzipped (excluding images)
-
-## 🎨 Design Highlights
-
-- **Single-Page Layout**: Hero and menu on same page, smooth scroll navigation
-- **Floating Wings**: 4 animated wings using the provided wing.png asset
-- **Star Field**: 30 twinkling stars for night theme
-- **BIG ORDER Button**: 64px (mobile) / 80px (desktop) height, prominent pink with glow
-- **Menu Cards**: Hover lift effect, smooth animations
-- **RTL/LTR**: Seamless switching between Hebrew and English
-
-## 📱 Responsive Breakpoints
-
-- **Mobile**: < 640px (single column, full width)
-- **Tablet**: 640px - 1024px (2 columns)
-- **Desktop**: > 1024px (3 columns)
-
-## 🚀 Performance
-
-- **Initial Bundle**: ~140KB gzipped
-- **Code Splitting**: React, Framer Motion, Zustand, i18n separated
-- **Lazy Loading**: Menu items use viewport-based loading
-- **Animations**: GPU-accelerated (transform/opacity)
-
-## 📦 Next Steps
-
-- [ ] Add cart panel component (slide-out drawer)
-- [ ] Add checkout flow (multi-step form)
-- [ ] Add menu item images (when provided)
-- [ ] Connect to n8n backend
-- [ ] Add order submission
-- [ ] Add loading states
-- [ ] Add error handling
-- [ ] Optimize images (WebP conversion)
-- [ ] Add PWA support
-- [ ] Add analytics
-
-## 🎯 Current Status
-
-**Status**: Core UI Complete ✅  
-**Build**: Passing ✅  
-**Ready for**: Development server testing, cart panel, checkout flow
+- Analytics, SEO, and accessibility polishing.
 
 ## 🏃 Run the Project
 
 ```bash
-npm install  # Already done
-npm run dev  # Start development server
+npm install
+npm run dev
 ```
 
-The site will open at `http://localhost:5173` with Hebrew as default language.
+Open `http://localhost:5173` (Hebrew is default; use the top-right language button to switch).
 

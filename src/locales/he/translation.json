@@ -30,7 +30,7 @@
     "combo": "קומבו"
   },
   "cart": {
-    "title": "עגלת קניות",
+    "title": "המאנץ' שלך",
     "empty": "העגלה ריקה",
     "checkout": "השלם הזמנה",
     "total": "סה\"כ",
@@ -42,7 +42,23 @@
     "keepOrdering": "המשך להזמין",
     "remove": "הסר",
     "edit": "ערוך",
-    "each": "לחתיכה"
+    "each": "לחתיכה",
+    "orderType": "סוג הזמנה",
+    "deliveryOption": "משלוח",
+    "pickupOption": "איסוף עצמי",
+    "paymentMethod": "אמצעי תשלום",
+    "cash": "מזומן",
+    "paybox": "פייבקס",
+    "customerName": "השם שלך",
+    "phoneNumber": "מספר טלפון",
+    "deliveryAddress": "כתובת למשלוח",
+    "useCurrentLocation": "השתמש במיקום הנוכחי",
+    "manualAddress": "הזן כתובת ידנית",
+    "submitOrder": "שלח הזמנה",
+    "processing": "מעבד...",
+    "orderSuccess": "ההזמנה התקבלה בהצלחה!",
+    "orderError": "ההזמנה נכשלה. נסה שוב.",
+    "requiredField": "שדה זה נדרש"
   },
   "selection": {
     "chooseType": "בחר סוג:",
