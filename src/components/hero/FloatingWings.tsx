@@ -2,10 +2,11 @@ import { motion } from 'framer-motion';
 import wingImage from '../../../assets/wing.png';
 
 const wings = [
-  { id: 1, initialX: '5%', initialY: '15%', duration: 3, delay: 0 },
-  { id: 2, initialX: '90%', initialY: '25%', duration: 4, delay: 0.5 },
-  { id: 3, initialX: '8%', initialY: '75%', duration: 3.5, delay: 1 },
-  { id: 4, initialX: '88%', initialY: '80%', duration: 4.5, delay: 1.5 },
+  { id: 1, initialX: '9%', initialY: '15%', duration: 3, delay: 0, rotation: 15 },
+  { id: 2, initialX: '85%', initialY: '20%', duration: 4, delay: 0.5, rotation: -25 },
+  { id: 3, initialX: '8%', initialY: '75%', duration: 3.5, delay: 1, rotation: 45 },
+  { id: 4, initialX: '88%', initialY: '80%', duration: 4.5, delay: 1.5, rotation: -10 },
+  { id: 5, initialX: '5%', initialY: '68%', duration: 3.8, delay: 0.7, rotation: 190 },
 ];
 
 export const FloatingWings = () => {
@@ -21,7 +22,7 @@ export const FloatingWings = () => {
           }}
           animate={{
             y: [0, -30, 0],
-            rotate: [0, 5, -5, 0],
+            rotate: [wing.rotation, wing.rotation + 15, wing.rotation - 5, wing.rotation],
             scale: [1, 1.05, 1],
           }}
           transition={{
