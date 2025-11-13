@@ -43,7 +43,7 @@ export const MenuSection = () => {
       id="menu"
       className="py-16 md:py-24 bg-bg-primary scroll-mt-[70px]"
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="mx-auto px-4 md:px-6 lg:px-8 max-w-7xl">
         {/* Section Title */}
         <h2 className="text-accent-pink font-body font-bold text-4xl md:text-5xl mb-12 md:mb-16 pb-4 md:pb-2 inline-block text-center w-full relative menu-title-thick">
           {t("menu.title")}
@@ -64,9 +64,11 @@ export const MenuSection = () => {
                 </h3>
 
                 {/* Items Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div className="flex flex-wrap justify-center gap-6 md:gap-8">
                   {category.items.map((item) => (
-                    <MenuItemCard key={item.id} item={item} />
+                    <div key={item.id} className="w-full md:w-[calc(50%-1rem)]">
+                      <MenuItemCard item={item} />
+                    </div>
                   ))}
                 </div>
               </div>
