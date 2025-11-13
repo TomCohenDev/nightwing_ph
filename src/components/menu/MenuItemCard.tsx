@@ -18,6 +18,7 @@ export const MenuItemCard = ({ item }: MenuItemCardProps) => {
   const [flyingPosition, setFlyingPosition] = useState({ x: 0, y: 0 });
   const [flyingSize, setFlyingSize] = useState(80);
   const cardRef = useRef<HTMLDivElement>(null);
+  const storedCardPosition = useRef<{ x: number; y: number } | null>(null);
 
   // Check if item needs customization (wings, tenders, combo)
   const needsCustomization =
@@ -26,15 +27,23 @@ export const MenuItemCard = ({ item }: MenuItemCardProps) => {
     item.category === "combo";
 
   const triggerFlyingAnimation = () => {
-    // Start flying animation
-    if (cardRef.current && item.imageUrl) {
-      const cardRect = cardRef.current.getBoundingClientRect();
+    // Start flying animation using stored or current position
+    if (item.imageUrl) {
+      let startX = 0, startY = 0;
+      
+      // Use stored position if available (from panel), otherwise get current position
+      if (storedCardPosition.current) {
+        startX = storedCardPosition.current.x;
+        startY = storedCardPosition.current.y;
+        storedCardPosition.current = null; // Clear after use
+      } else if (cardRef.current) {
+        const cardRect = cardRef.current.getBoundingClientRect();
+        startX = cardRect.left + cardRect.width / 2 - 40;
+        startY = cardRect.top + cardRect.height / 2 - 40;
+      }
       
       // Set initial position (center of clicked card)
-      setFlyingPosition({
-        x: cardRect.left + cardRect.width / 2 - 40,
-        y: cardRect.top + cardRect.height / 2 - 40
-      });
+      setFlyingPosition({ x: startX, y: startY });
       setFlyingSize(80);
       setIsFlyingToCart(true);
       
@@ -56,6 +65,14 @@ export const MenuItemCard = ({ item }: MenuItemCardProps) => {
 
   const handleAddToCart = () => {
     if (needsCustomization) {
+      // Store card position before opening panel
+      if (cardRef.current) {
+        const cardRect = cardRef.current.getBoundingClientRect();
+        storedCardPosition.current = {
+          x: cardRect.left + cardRect.width / 2 - 40,
+          y: cardRect.top + cardRect.height / 2 - 40
+        };
+      }
       // Open selection panel
       setIsPanelOpen(true);
     } else {

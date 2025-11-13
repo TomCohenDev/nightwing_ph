@@ -151,10 +151,10 @@ export const ItemSelectionPanel = ({
         });
       }
       
-      // Close immediately and trigger animation
+      // Close immediately and trigger animation after panel animation completes
       onClose();
       if (onAddSuccess) {
-        setTimeout(() => onAddSuccess(), 100);
+        setTimeout(() => onAddSuccess(), 400);
       }
     } else {
       // Wings or Tenders needs: 2 sauces
@@ -205,10 +205,10 @@ export const ItemSelectionPanel = ({
         });
       }
       
-      // Close immediately and trigger animation
+      // Close immediately and trigger animation after panel animation completes
       onClose();
       if (onAddSuccess) {
-        setTimeout(() => onAddSuccess(), 100);
+        setTimeout(() => onAddSuccess(), 400);
       }
       // Reset after closing
       setSelectedSauces([]);
