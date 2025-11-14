@@ -17,6 +17,7 @@ export const MenuItemCard = ({ item }: MenuItemCardProps) => {
   const [isFlyingToCart, setIsFlyingToCart] = useState(false);
   const [flyingPosition, setFlyingPosition] = useState({ x: 0, y: 0 });
   const [flyingSize, setFlyingSize] = useState(80);
+  const [showNeonPulse, setShowNeonPulse] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const storedCardPosition = useRef<{ x: number; y: number } | null>(null);
 
@@ -27,6 +28,12 @@ export const MenuItemCard = ({ item }: MenuItemCardProps) => {
     item.category === "combo";
 
   const triggerFlyingAnimation = () => {
+    // Trigger neon pulse animation
+    setShowNeonPulse(true);
+    setTimeout(() => {
+      setShowNeonPulse(false);
+    }, 1000);
+    
     // Start flying animation using stored or current position
     if (item.imageUrl) {
       let startX = 0, startY = 0;
@@ -94,8 +101,45 @@ export const MenuItemCard = ({ item }: MenuItemCardProps) => {
     <div
       ref={cardRef}
       onClick={handleAddToCart}
-      className="bg-bg-dark rounded-xl overflow-hidden border border-accent-pink/20 hover:border-accent-pink/40 transition-all duration-300 cursor-pointer"
+      className={`bg-bg-dark rounded-xl overflow-hidden border transition-all duration-300 cursor-pointer relative ${
+        showNeonPulse
+          ? "border-cyan-400/40 shadow-[0_0_10px_rgba(34,211,238,0.3)]"
+          : "border-accent-pink/20 hover:border-accent-pink/40"
+      }`}
     >
+      {/* Neon Border Animation */}
+      {showNeonPulse && (
+        <div className="absolute inset-0 pointer-events-none rounded-xl overflow-hidden">
+          <div
+            className="absolute w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent top-0"
+            style={{
+              animation: "slideRight 0.5s ease-out forwards",
+              boxShadow: "0 0 6px rgba(34, 211, 238, 0.4)",
+            }}
+          />
+          <div
+            className="absolute w-1 h-full bg-gradient-to-b from-transparent via-cyan-400/60 to-transparent right-0"
+            style={{
+              animation: "slideDown 0.5s ease-out 0.15s forwards",
+              boxShadow: "0 0 6px rgba(34, 211, 238, 0.4)",
+            }}
+          />
+          <div
+            className="absolute w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent bottom-0"
+            style={{
+              animation: "slideLeft 0.5s ease-out 0.3s forwards",
+              boxShadow: "0 0 6px rgba(34, 211, 238, 0.4)",
+            }}
+          />
+          <div
+            className="absolute w-1 h-full bg-gradient-to-b from-transparent via-cyan-400/60 to-transparent left-0"
+            style={{
+              animation: "slideUp 0.5s ease-out 0.45s forwards",
+              boxShadow: "0 0 6px rgba(34, 211, 238, 0.4)",
+            }}
+          />
+        </div>
+      )}
       {/* Image */}
       {item.imageUrl && (
         <div className="w-full h-48 bg-bg-light overflow-hidden flex items-center justify-center p-4">
