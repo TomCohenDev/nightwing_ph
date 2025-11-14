@@ -27,7 +27,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "9 pieces, 2 sauces",
     price: 45,
     category: "wings",
-    imageUrl: "/assets/wings.webp",
+    imageUrl: "/assets/menu_items/wings.webp",
     isAvailable: true,
   },
   {
@@ -38,7 +38,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "6 chicken fillet pieces, 2 sauces",
     price: 45,
     category: "tenders",
-    imageUrl: "/assets/tenders.jpg",
+    imageUrl: "/assets/menu_items/tenders.webp",
     isAvailable: true,
   },
   {
@@ -49,6 +49,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Traditional chili sauce",
     price: 0,
     category: "sauces",
+    imageUrl: "/assets/menu_items/Traditional_chili_sauce.webp",
     isAvailable: true,
   },
   {
@@ -59,6 +60,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Spicy Thai sauce",
     price: 0,
     category: "sauces",
+    imageUrl: "/assets/menu_items/Spicy_Thai_sauce.webp",
     spiceLevel: 4,
     isAvailable: true,
   },
@@ -70,6 +72,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Creamy peanut butter sauce",
     price: 0,
     category: "sauces",
+    imageUrl: "/assets/menu_items/Creamy_peanut_butter_sauce.webp",
     isAvailable: true,
   },
   {
@@ -80,6 +83,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Sweet mustard and honey sauce",
     price: 0,
     category: "sauces",
+    imageUrl: "/assets/menu_items/Sweet_mustard_and_honey_sauce.webp",
     isAvailable: true,
   },
   {
@@ -90,7 +94,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Traditional American coleslaw",
     price: 5,
     category: "salads",
-    imageUrl: "/assets/coleslaw.jpg",
+    imageUrl: "/assets/menu_items/coleslaw.webp",
     isAvailable: true,
   },
   {
@@ -101,6 +105,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Cola Zero",
     price: 10,
     category: "drinks",
+    imageUrl: "/assets/menu_items/cola_zero.webp",
     isAvailable: true,
   },
   {
@@ -111,6 +116,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Fanta",
     price: 10,
     category: "drinks",
+    imageUrl: "/assets/menu_items/fanta.webp",
     isAvailable: true,
   },
   {
@@ -121,6 +127,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Sprite Zero",
     price: 10,
     category: "drinks",
+    imageUrl: "/assets/menu_items/sprite_zero.webp",
     isAvailable: true,
   },
   {
@@ -131,7 +138,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Crispy and delicious fries",
     price: 15,
     category: "addons",
-    imageUrl: "/assets/fries.webp",
+    imageUrl: "/assets/menu_items/fries.webp",
     isAvailable: true,
   },
   {
@@ -142,6 +149,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Delicious corndog",
     price: 15,
     category: "addons",
+    imageUrl: "/assets/menu_items/corndogs.webp",
     isAvailable: true,
   },
   {
@@ -152,7 +160,7 @@ export const menuItems: MenuItem[] = [
     descriptionEn: "Tenders/Wings + Fries + Can Drink + Salad",
     price: 65,
     category: "combo",
-    imageUrl: "/assets/combo.webp",
+    imageUrl: "/assets/menu_items/combo.webp",
     isAvailable: true,
   },
 ];

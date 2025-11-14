@@ -98,11 +98,11 @@ export const MenuItemCard = ({ item }: MenuItemCardProps) => {
     >
       {/* Image */}
       {item.imageUrl && (
-        <div className="w-full h-48 bg-bg-light overflow-hidden">
+        <div className="w-full h-48 bg-bg-light overflow-hidden flex items-center justify-center p-4">
           <img
             src={item.imageUrl}
             alt={isRTL ? item.nameHe : item.nameEn}
-            className="w-full h-full object-cover"
+            className="max-w-full max-h-full object-contain"
             loading="lazy"
           />
         </div>

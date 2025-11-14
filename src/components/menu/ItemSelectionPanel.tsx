@@ -151,11 +151,12 @@ export const ItemSelectionPanel = ({
         });
       }
       
-      // Close immediately and trigger animation after panel animation completes
-      onClose();
+      // Trigger animation first, then close panel
       if (onAddSuccess) {
-        setTimeout(() => onAddSuccess(), 400);
+        onAddSuccess();
       }
+      // Small delay before closing so the animation starts from correct position
+      setTimeout(() => onClose(), 50);
     } else {
       // Wings or Tenders needs: 2 sauces
       if (selectedSauces.length !== 2) return;
@@ -205,15 +206,18 @@ export const ItemSelectionPanel = ({
         });
       }
       
-      // Close immediately and trigger animation after panel animation completes
-      onClose();
+      // Trigger animation first, then close panel
       if (onAddSuccess) {
-        setTimeout(() => onAddSuccess(), 400);
+        onAddSuccess();
       }
-      // Reset after closing
-      setSelectedSauces([]);
-      setSelectedDrink(null);
-      setComboType("wings");
+      // Small delay before closing so the animation starts from correct position
+      setTimeout(() => {
+        onClose();
+        // Reset after closing
+        setSelectedSauces([]);
+        setSelectedDrink(null);
+        setComboType("wings");
+      }, 50);
     }
   };
 

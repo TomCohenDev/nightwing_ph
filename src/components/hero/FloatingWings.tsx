@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import wingImage from '../../../assets/wing.png';
+
+const wingImage = '/assets/wing_bobble.png';
 
 const wings = [
   { id: 1, initialX: '9%', initialY: '15%', duration: 3, delay: 0, rotation: 15 },
